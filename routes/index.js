@@ -8,7 +8,7 @@ var Shop = require("../models/shop");
 var middleware = require("../middleware/index.js");
 
 router.get("/", function(req, res) {
-	res.render("landing");
+	res.redirect("register");
 })
 
 router.get("/dashboard", middleware.isLoggedIn, function(req, res) {
