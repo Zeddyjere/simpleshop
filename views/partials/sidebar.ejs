@@ -1,0 +1,49 @@
+<div class="sidebar hideonmob">
+	<div class="sidebar_header">
+		<img class="generalspacing" src="https://image.ibb.co/cpn1nw/simpleshop_logo.jpg" />
+		<p><%= currentUser.firstname %> <%= currentUser.lastname %></p>
+	</div>
+	<div class="divider"></div>
+	<div class="sidebar_list-items">
+		<div id="dashboardlink" onclick="location.href='/dashboard';" class="list-item dashboard-item"><text>Dashboard</text></div>
+		<div id="shopslink" onclick="location.href='/shops';" class="list-item"><text>My shops</text></div>
+		<div id="inventorylink" onclick="location.href='/myinventory';" class="list-item"><text>My inventory</text></div>
+		<% if(currentUser.typeaccount == "Administrator") { %>
+			<div id="accountslink" onclick="location.href='/account';" class="list-item"><text>Account Management</text></div>
+		<% } %>
+		<div id="statslink" onclick="location.href='/stats';" class="list-item"><text>Stats and Trends</text></div>
+		<div id="helplink" onclick="location.href='/help';" class="list-item"><text>Help</text></div>
+	</div>
+</div>
+
+<script>
+	var dashboardlink 	 = document.getElementById("dashboardlink"),
+	    shopslink		 = document.getElementById("shopslink"),
+	    inventorylink 	 = document.getElementById("inventorylink"),
+	    accountslink     = document.getElementById("accountslink"),
+	    statslink        = document.getElementById("statslink"),
+	    securitylink     = document.getElementById("securitylink"),
+	    helplink		 = document.getElementById("helplink"),
+	    URL 			 = "http://localhost:3000"
+
+	activate();
+
+	function activate() {
+		console.log(window.location.href);
+		// We are going to check what page we're on and assign the activate class
+		if(window.location.href == URL + "/dashboard") {
+			dashboardlink.classList.add("activate");
+		} else if (window.location.href == URL + "/shops") {
+			shopslink.classList.add("activate");
+		} else if (window.location.href == URL + "/myinventory") {
+			inventorylink.classList.add("activate");
+		} else if (window.location.href == URL + "/account") {
+			accountslink.classList.add("activate");
+		} else if (window.location.href == URL + "/stats") {
+			statslink.classList.add("activate");
+		} else if (window.location.href == URL + "/help") {
+			helplink.classList.add("activate")
+		} 
+	}
+	
+</script>

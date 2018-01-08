@@ -1,0 +1,140 @@
+<% include partials/header.ejs %>
+<% include partials/menu %>
+
+	<div class="row">
+		<div class="col-lg-3 customwidth">
+			<% include partials/sidebar %>
+		</div>
+		<div class="col-lg-9 contentsection">
+			<div class="divider"></div>
+			<h4 class="greytext">Statistics and Trends</h4>
+			<p class="greytext"><%= shop.shopname %></p>
+			<div class="divider"></div>
+			
+			<div class="chart-container" style="position: relative; height:60vh; width:60vw">
+			    <canvas class="centertext" id="myChart"></canvas>
+			</div>
+
+			<hr>
+
+			<div class="row">
+				<div class="col-md-6">
+					<div class="topsec">
+						<div class="row">
+							<div class="col-md-12">
+								<p class="topsec_title">Items incurring a profit</p>
+							</div>
+						</div>
+					</div>
+
+					<% shop.shopinventory.slice(-5).reverse().forEach(function(invento) { %>
+						<% var total = 0 %>
+						<% invento.profitandloss.forEach(function(theprofitloss) { %>
+							<% total += theprofitloss.profitloss %>										
+						<% }) %>
+
+						<% if(total > 0) { %>
+							<div class="card">
+								<div class="card-body">
+									<div class="statisticsitem">
+										<div class="row">
+											<div class="col-lg-6">
+												<span><%= invento.itemname %> | </span>
+											</div>
+											<div class="col-lg-6 centertext">
+
+												<% if(total > 0) { %>
+													<span class="greentext"><i class="fa fa-caret-up" aria-hidden="true"></i> KSH: <%= total %></span>
+												<% } %>
+														
+											</div>
+										</div>
+									</div>
+								</div>
+							</div>
+						<% } %>	
+					<% }) %>
+				</div>
+				<div class="col-md-6">
+					<div class="topsec">
+						<div class="row">
+							<div class="col-md-12">
+								<p class="topsec_title">Items incurring a loss</p>
+							</div>
+						</div>
+					</div>
+
+					<% shop.shopinventory.slice(-5).reverse().forEach(function(invento) { %>
+						<% var total = 0 %>
+						<% invento.profitandloss.forEach(function(theprofitloss) { %>
+							<% total += theprofitloss.profitloss %>										
+						<% }) %>
+
+						<% if(total < 0) { %>
+							<div class="card">
+								<div class="card-body">
+									<div class="statisticsitem">
+										<div class="row">
+											<div class="col-lg-6">
+												<span><%= invento.itemname %> | </span>
+											</div>
+											<div class="col-lg-6 centertext">
+
+												<% if(total < 0) { %>
+													<span class="redtext"><i class="fa fa-caret-down" aria-hidden="true"></i> KSH: <%= total %></span>
+												<% } %>
+														
+											</div>
+										</div>
+									</div>
+								</div>
+							</div>
+						<% } %>	
+					<% }) %>
+				</div>
+			</div>
+
+			
+		</div>
+	</div>	
+
+	<script>
+		var chartData = [];
+
+		<% shop.profitloss.slice(-6).forEach(function(theprofitloss) { %>
+			chartData.push(<%= theprofitloss.profitloss %>)
+		<% }) %>
+
+		console.log(chartData);
+		var ctx = document.getElementById("myChart");
+		var myChart = new Chart(ctx, {
+		    type: 'line',
+		    data: {
+		        labels: ["1st", "", "2nd", "", "3rd", ""],
+		        datasets: [{
+		            label: 'Shop Performance',
+		            data: chartData,
+		            backgroundColor: [
+		                'rgba(6, 190, 148, 0.2)'
+		            ],
+		            borderColor: [
+		                'rgba(5, 164, 128, 1)'
+		            ],
+		 
+		        }]
+		    },
+		    options: {
+		        scales: {
+		            yAxes: [{
+		                ticks: {
+		                    beginAtZero:true
+		                }
+		            }]
+		        }
+		    }
+		});
+
+
+	</script>
+
+<% include partials/footer.ejs %>

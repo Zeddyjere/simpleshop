@@ -1,0 +1,98 @@
+<% include partials/header.ejs %>
+<% include partials/menu %>
+
+	<div class="row">
+		<div class="col-lg-3 customwidth">
+			<% include partials/sidebar %>
+		</div>
+		<div class="col-lg-9 contentsection">
+			<div class="divider"></div>
+
+			<% if(currentUser.typeaccount == "Administrator") { %>
+				<button class="btn btn-info greenbtn" data-toggle="modal" data-target="#shopModel"><i class="fa fa-plus-square-o" aria-hidden="true"></i> Add a Shop</button>
+			<% } %>
+
+
+			<!-- Modal for ADDING SHOP -->
+			<div class="modal fade" id="shopModel" tabindex="-1" role="dialog" aria-labelledby="shopModalLabel" aria-hidden="true">
+			  <div class="modal-dialog" role="document">
+			    <div class="modal-content">
+			      <div class="modal-header greenbackground">
+			        <h5 class="modal-title" id="shopModalLabel"><i class="fa fa-shopping-cart" aria-hidden="true"></i> Create a Shop</h5>
+			        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+			          <i class="fa fa-times" aria-hidden="true"></i>
+			        </button>
+			      </div>
+			      <div class="modal-body generalpadding">
+			        <form action="/shops" method="POST">
+					  <div class="form-group">
+					    <label class="greytext smalltext" for="exampleInputEmail1">Shop ID</label>
+					    <input type="text" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="A unique ID will be generated ..." readonly>
+					  </div>
+					  <div class="form-group">
+					    <label class="greytext smalltext" for="exampleInputEmail1">Shop Name</label>
+					    <input type="text" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Enter shop name" name="shop[shopname]" required>
+					  </div>
+					  <div class="form-group">
+					    <label class="greytext smalltext" for="exampleInputEmail1">Owner Name</label>
+					    <input type="text" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Enter owner name" name="shop[shopowner]" required>
+					  </div>
+					  <div class="form-group">
+					    <input type="text" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" value="<%= currentUser._id %>" name="shop[shopownerid]" hidden>
+					  </div>
+					  <div class="form-group">
+					    <input type="text" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" value=true name="shop[active]" hidden>
+					  </div>
+					  <div class="form-group">
+					    <label class="greytext smalltext" for="shopType">Shop Type</label>
+					    <select class="form-control" id="shopType" name="shop[shoptype]" required>
+					      <option>Supermarket</option>
+					      <option>Big Shop</option>
+					      <option>Small Shop</option>
+					    </select>
+					  </div>
+
+					  <div class="divider"></div>
+
+					  <button type="submit" class="btn btn-info greenbtn">Create this shop</button>
+					  <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+					</form>
+			      </div>
+			    </div>
+			  </div>
+			</div>
+
+			<!-- End of the model -->
+
+			<div class="divider"></div>
+
+			<h4 class="greytext">Your Shops</h4>
+			<p class="greytext">All the shops that you create or manage will be viewed here.</p>
+
+			<div class="divider"></div>
+
+			<div class="row">
+
+				<% user.shopsowned.forEach(function(shop) { %>
+					<div class="col-lg-3 col-md-6">
+						<div class="card margin-bottom">
+							<div class="card-body">
+								<div class="centertext">
+									<img src="https://image.ibb.co/cpn1nw/simpleshop_logo.jpg">
+								</div>
+								<hr>
+								<p class="shop-card-title"><%= shop.shopname %></p>			
+								<p class="shop-card-text">Owner: <%= shop.shopowner %></p>	
+								<div class="centertext">
+									<a  href="/shops/<%= shop._id %>" class="btn btn-info greenbtn">View</a>		
+								</div>	
+							</div>
+						</div>
+					</div>
+				<% }) %>
+
+			</div>
+		</div>
+	</div>
+
+<% include partials/footer.ejs %>

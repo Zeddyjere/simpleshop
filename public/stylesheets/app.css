@@ -1,0 +1,295 @@
+html {
+	height: 100%;
+	width: 100%;
+}
+
+body {
+	height: 100%;
+	width: 100%;
+}
+
+button {
+	cursor: pointer;
+}
+
+.display-inline { 
+	display: inline;
+}
+
+.row {
+	margin-right: 0px;
+}
+
+.navbar {
+	color: rgba(0,0,0,.65);
+	background-color: white !important;
+	border-bottom: 1px solid rgba(0,0,0,.1); 
+	border-radius: 0;
+	padding: 7px 60px;
+}
+
+.navbar-light .navbar-brand {
+     color: rgba(0,0,0,.65); 
+}
+
+.greentext {
+	color: #06be94;
+}
+
+.redtext {
+	color: #CB000F;
+}
+
+.bluetext {
+	color: #0077CB;
+}
+
+.greytext {
+	color: rgba(0,0,0,.65);
+}
+
+.nav-link {
+	margin: 0px 10px;
+}
+
+.sidebar {
+	background: #fff;
+	height: 100%;
+	border-right: 1px solid rgba(0,0,0,.1);
+	min-height: 100vh;
+	max-width: 300px;
+}
+
+.sidebar_header {
+	width: 100%;
+	text-align: center;
+}
+
+.customwidth {
+	max-width: 22%
+}
+
+.sidebar_list-items {
+	padding: 0px;
+}
+
+.sidebar_list-items div a {
+	color: rgba(0,0,0,.65);
+}
+
+.list-item {
+	padding: 15px 20px;
+	font-size: 15px;
+	border-bottom: 1px solid rgba(0,0,0,.1);
+}
+
+.list-item:hover {
+	cursor: pointer;
+	background-color: #efefef;
+}
+
+a:hover {
+	text-decoration: none;
+}
+
+.divider {
+	height: 30px;
+}
+
+.smdivider {
+	height: 10px;
+}
+
+.dashboard-item {
+	border-top: 1px solid rgba(0,0,0,.1);
+}
+
+.activate {
+	border-right: 4px solid #06be94;
+}
+
+.generalspacing {
+	margin: 20px;
+}
+
+.generalpadding {
+	padding: 30px;
+}
+
+.custom_marginleft {
+	margin-left: 30px;
+}
+
+.leftalign {
+	text-align: left;
+}
+
+.centertext {
+	text-align: center;
+}
+
+.contentsection {
+	padding: 0 20px;
+}
+
+.topsec {
+	height: 24px;
+	background-color: grey;
+	padding-right: 23px;
+}
+
+.topsec_title {
+	color: white;
+	padding-left: 7px;
+	font-size: 14px; 
+}
+
+.align-right {
+	text-align: right;
+}
+
+.jumbotron {
+	background-color: #06be94;
+	color: #fff;
+	padding: 2rem 2rem;
+}
+
+.jumbotron a {
+	color: #fff;
+}
+
+.greenbackground {
+	background-color: #06be94;
+	color: #fff;
+}
+
+.greenbtn {
+	background-color: #06BE94;
+	cursor: pointer;
+}
+
+a:not([href]):not([tabindex]) {
+	color: #fff;
+}
+
+.greenbtn:hover {
+	background-color: #05A480;
+}
+
+.shop-card-title {
+	margin: 0px;
+	font-weight: 500;
+
+}
+
+.shop-card-text {
+	color: rgba(0,0,0,.65);
+	font-size: 12px;
+}
+
+.margin-bottom {
+	margin-bottom: 7px;
+}
+
+.smalltext {
+	font-size: 14px;
+}
+
+.semismalltext {
+	font-size: 15px;
+}
+
+.viewnotifications {
+	padding: 5px 0;
+}
+
+#viewnotificationstext {
+	color: black;
+	cursor: pointer;
+	font-weight: 500;
+}
+
+#viewnotificationstext:hover {
+	color: #464a4e;
+	cursor: pointer;
+	font-weight: 500;
+}
+
+
+.iconsize18 {
+	font-size: 18px;
+}
+
+#addinventory {
+	color: #06be94;
+	cursor: pointer;
+}
+
+#addinventory:hover {
+	color: #05A480;
+}
+
+.login-header {
+	width: 100%;
+	padding: 14px;
+}
+
+.pos-inline {
+	display: inline;
+}
+
+.badge {
+	font-size: 60%
+}
+
+.dropdown-menu {
+	min-width: 30rem;
+	padding: 0;
+}
+
+.hide {
+	display: none;
+}
+
+.invoiceHeader {
+	margin-bottom: 40px;
+}
+
+#invoice {
+	width: 695px;
+}
+
+.invoicetop {
+	padding: 7px 1.25rem;
+	background-color: #efefef
+}
+
+.noborderad {
+	border-radius: 0px;
+}
+
+#closeicon {
+	cursor: pointer;
+}
+
+.fullwidth {
+	width: 100%;
+}
+
+
+@media screen and (max-width: 991px) {
+	.hideonmob {
+		display: none;
+	}
+
+	.contentsection {
+		padding: 0 40px;
+	}
+}
+
+
+@media screen and (max-width: 570px) {
+	.navbar {
+		padding: 7px 20px;
+	}
+}

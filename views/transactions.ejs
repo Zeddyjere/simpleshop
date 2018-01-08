@@ -1,0 +1,81 @@
+<% include partials/header %>
+<% include partials/menu %>
+
+	<div class="divider"></div>
+	<div class="container">
+		<div class="row">
+			<div class="col-lg-8">
+				<div class="card">
+					<div class="card-body">
+						<h3 class="greytext">Simple <span class="greentext">Shop</span>: Transactions History</h3>
+						<text class="smalltext">Shop Name: <%= shop.shopname %></text><br>
+						<text class="smalltext">Date Created: <%= shop.datecreated %></text>
+					</div>
+				</div>
+			</div>
+			<div class="col-lg-4"></div>
+		</div>
+
+		<div class="divider"></div>
+
+		<a href="#" class="greentext"><i class="fa fa-download" aria-hidden="true"></i> Download</a>&nbsp;&nbsp;
+		<a href="#" class="greentext"><i class="fa fa-print" aria-hidden="true"></i> Print </a>&nbsp;&nbsp;
+
+		<div class="smdivider"></div>
+
+		<div class="topsec">
+			<div class="row">
+				<div class="col-lg-3">
+					<p class="topsec_title ">Customer Name</p>
+				</div>
+				<div class="col-lg-3">
+					<p class="topsec_title smalltext">Itemname (Quantity)</p>
+				</div>
+				<div class="col-lg-3">
+					<p class="topsec_title smalltext">Totalspent (KSH)</p>
+				</div>
+				<div class="col-lg-3">
+					<p class="topsec_title smalltext">Date</p>
+				</div>
+			</div>
+		</div>
+
+		<% if(shop.shoptransactions.length == 0) { %>
+			<div class="card centertext">
+				<div class="card-body">
+					<text>This shop doesn't have any transactions yet.</text>
+				</div>
+			</div>
+		<% } %>
+
+		<% shop.shoptransactions.reverse().forEach(function(transaction) { %>
+			<% if(transaction.totalspent == 0) { %>
+				<div class="card redtext">
+					<div class="card-body">
+						<div class="row">
+							<div class="col-lg-3 smalltext"><em><%= transaction.customername %></em></div>
+							<div class="col-lg-3 smalltext"><%= transaction.itemname %> (<%= transaction.quantity %>)</div>
+							<div class="col-lg-3 smalltext">KSH: <%= transaction.totalspent %></div>
+							<div class="col-lg-3 smalltext"><%= transaction.dategenerated %></div>
+						</div>
+					</div>
+				</div>
+			<%	} else { %>
+				<div class="card">
+					<div class="card-body">
+						<div class="row">
+							<div class="col-lg-3 smalltext"><%= transaction.customername %></div>
+							<div class="col-lg-3 smalltext"><%= transaction.itemname %> (<%= transaction.quantity %>)</div>
+							<div class="col-lg-3 smalltext">KSH: <%= transaction.totalspent %></div>
+							<div class="col-lg-3 smalltext"><%= transaction.dategenerated %></div>
+						</div>
+					</div>
+				</div>
+			<% } %>
+
+			
+
+		<% }) %>
+	</div>
+
+<% include partials/footer %>

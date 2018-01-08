@@ -1,0 +1,40 @@
+<% include partials/header.ejs %>
+<% include partials/menu %>
+
+	<div class="row">
+		<div class="col-lg-3 customwidth">
+			<% include partials/sidebar %>
+		</div>
+		<div class="col-lg-9 contentsection">
+			<div class="divider"></div>
+			<h4 class="greytext">Statistics and Trends</h4>
+			<p class="greytext">Choose a shop you want to view stats from</p>
+			<div class="divider"></div>
+			
+			<div class="row">
+
+				<% user.shopsowned.forEach(function(shop) { %>
+					<div class="col-lg-3 col-md-6">
+						<div class="card margin-bottom">
+							<div class="card-body">
+								<div class="centertext">
+									<img src="https://image.ibb.co/cpn1nw/simpleshop_logo.jpg">
+								</div>
+								<hr>
+								<p class="shop-card-title"><%= shop.shopname %></p>			
+								<p class="shop-card-text">Owner: <%= shop.shopowner %></p>	
+								<div class="centertext">
+									<a  href="/stats/<%= shop._id %>" class="btn btn-info greenbtn">View</a>		
+								</div>	
+							</div>
+						</div>
+					</div>
+				<% }) %>
+
+			</div>
+			
+		</div>
+	</div>	
+
+
+<% include partials/footer.ejs %>

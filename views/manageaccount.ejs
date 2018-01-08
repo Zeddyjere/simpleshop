@@ -1,0 +1,163 @@
+<% include partials/header.ejs %>
+<% include partials/menu %>
+
+	<div class="row">
+		<div class="col-lg-3 customwidth">
+			<% include partials/sidebar %>
+		</div>
+		<div class="col-lg-9 contentsection">
+			<div class="divider"></div>
+			<h4 class="greytext"><%= shop.shopname %> - Account Management</h4>
+			<div class="divider"></div>
+
+			<hr>
+
+			<div class="row">
+				<div class="col-md-7">
+					<div class="topsec">
+						<p class="topsec_title">Your account information</p>	
+					</div>
+					<div class="card">
+						<div class="card-body">
+							<form>
+							  <div class="form-row">
+							    <div class="form-group col-md-6">
+							      <label for="inputEmail4">First Name</label>
+							      <input type="text" class="form-control" id="inputEmail4" disabled value="<%= currentUser.firstname %>">
+							    </div>
+							    <div class="form-group col-md-6">
+							      <label for="inputPassword4">Last Name</label>
+							      <input type="text" class="form-control" id="inputPassword4" value="<%= currentUser.firstname %>" disabled>
+							    </div>
+							  </div>
+							  	<div class="form-group">
+							      <label for="inputPassword4">Username</label>
+							      <input type="text" class="form-control" id="inputPassword4" value="<%= currentUser.username %>" disabled>
+							    </div>
+							  <div class="form-group">
+							    <label for="inputAddress2">Email</label>
+							    <input type="email" class="form-control" id="inputAddress2" value="<%= currentUser.emailaddress %>" disabled>
+							  </div>
+
+							  <div class="card">
+							  	<div class="card-body">
+							  		<text class="smalltext">This account was created on <strong><%= currentUser.datecreated %></strong>. To change or reset your password, contact us!
+							  		</text>
+							  	</div>
+							  </div>
+							</form>
+						</div>
+					</div>
+				</div>
+				<div class="col-md-5">
+					<div class="card">
+						<div class="card-body">
+							<div class="centertext">
+								<img class="generalspacing" src="https://image.ibb.co/cpn1nw/simpleshop_logo.jpg">
+								<p class="smalltext">Certified Shop</p>
+							</div>
+
+							<div><strong>Shop Name: </strong> <span class="smalltext"><%= shop.shopname %></span></div>
+							<div><strong>Shop Owner Name: </strong> <span class="smalltext"><%= shop.shopowner %></span></div>
+							<div><strong>Date Created: </strong> <span class="smalltext"><%= shop.datecreated %></span></div>
+							<div><strong>Number of staff collaborators: </strong> <span id="stafftotal"></span></div>
+						</div>
+						
+					</div>
+					<div class="smdivider"></div>
+					<form action="/account/<%= shop._id %>/statusupdate?_method=PUT" method="POST">
+					  <div class="form-group">
+					    
+					    <input type="text" class="form-control" id="shopid" aria-describedby="emailHelp" placeholder="<%= shop._id %>" readonly hidden>
+					  </div>
+					  <div class="form-group">
+					    
+					    <input type="text" class="form-control" id="shopnameedit" aria-describedby="emailHelp" value="<%= shop.shopname %>" name="shop[shopname]" hidden >
+					  </div>
+					  <div class="form-group">
+					    
+					    <input type="text" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" 
+					    <% if(shop.active == true) { %>
+					    	value=false
+					    <% } else { %>
+							value=true
+					    <% } %>
+					     name="shop[active]" hidden>
+					  </div>
+
+					  <div class="form-group">
+					    
+					    <input type="text" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" value="<%= shop.shopowner %>" name="shop[shopowner]" hidden>
+					  </div>
+
+					  <div class="form-group">
+					    
+					    <select class="form-control" id="shopType" name="shop[shoptype]" hidden>
+					      <option>Supermarket</option>
+					      <option>Big Shop</option>
+					      <option>Small Shop</option>
+					    </select>
+					  </div>
+
+					  <% if(shop.active == true) { %>
+					  		<button class="btn btn-warning fullwidth">Deactivate this shop</button>
+					  <% } else { %>
+					  		<button class="btn btn-success fullwidth">Activate this shop</button>
+					  <% } %>
+					  
+					</form>
+
+					
+				</div>
+			</div>
+
+			<div class="divider"></div>
+
+			<div>
+				<div class="topsec">
+					<p class="topsec_title">Current Staff collaborators</p>	
+				</div>
+				<% if(shop.staffmembers.length == 0) { %>
+					<div class="card centertext">
+						<div class="card-body">
+							<text>You do not have any staff collaborators under this shop yet.</text>
+						</div>
+					</div>
+				<% } %>
+
+			   	<% shop.staffmembers.reverse().forEach(function(staff) { %>
+			   		
+			   		<div class="card">
+				      <div class="card-body">
+				        <div class="statisticsitem">
+							<div class="row">
+								<div class="col-lg-4">
+									<span><%= staff.firstname %> <%= staff.lastname %></span>
+								</div>
+								<div class="col-lg-4"></div>
+								<div class="col-lg-4 align-right">
+
+									<form class="pos-inline" action="/shops/<%= shop._id %>/registerstaff/<%= staff._id %>?_method=DELETE" method="POST">
+										<button onclick="return confirm('Are you sure you want to remove this staff under this shop??')" class="btn btn-outline-danger btn-sm">Remove Staff</button>
+									</form>
+
+								</div>
+							</div>
+						</div>
+				      </div>
+				     </div>
+			   	<% }) %>
+			</div>
+		</div>
+	</div>
+
+	<script>
+		var allstaff = <%= shop.staffmembers.length %>
+		var stafftotal = document.getElementById("stafftotal");
+		stafftotal.textContent = allstaff;
+	</script>
+
+<% include partials/footer.ejs %>
+
+
+

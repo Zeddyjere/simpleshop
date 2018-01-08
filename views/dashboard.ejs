@@ -1,0 +1,93 @@
+<% include partials/header %>
+<% include partials/menu %>
+
+	<div class="row">
+		<div class="col-lg-3 customwidth ">
+			<% include partials/sidebar %>
+		</div>
+		<div class="col-lg-9 contentsection">
+			<div class="divider"></div>
+
+			<% if(successmessage && successmessage.length > 0) { %>
+				<div class="alert alert-success" role="alert">
+				  <%= successmessage %>
+				</div>
+			<% } %>
+			
+			<div class="card" id="introbarner">
+				<div class="card-body">
+					<div class="row">
+						<div class="col-md-8">Hi there! Welcome to Simple Shop <%= currentUser.firstname %>. Here are some tips to get you started.</div>
+						<div class="col-md-4 align-right"><i id="closeicon" class="fa fa-times" aria-hidden="true"></i></div>
+					</div>
+				</div>
+			</div>
+			<div class="smdivider"></div>
+			<div class="jumbotron jumbotron-fluid">
+				<div class="container">
+					<h3 class="centertext">Getting started with Simple Shop</h3>
+				   	<p class="lead centertext">Keep track of your shop's activities in three simple steps:</p>
+					<div class="container">
+					    <div class="row centertext">
+						   	<div class="col-lg-4">
+							    <p>Step 1</p>
+							    <a href="/shops">Create a shop</a>
+						   	</div>
+						    <div class="col-lg-4">
+						    	<p>Step 2</p>
+						    	<p>Add Staff and Collaborators</p>
+						    </div>
+						    <div class="col-lg-4">
+						    	<p>Step 3</p>
+						    	<p>Review shop performance and make use of our recommendations</p>
+						    </div>
+					    </div>	
+					</div>					    
+				</div>
+			</div>
+
+			
+			<div class="row">
+				<div class="col-lg-8">
+					<p class="greentext"><i class="fa fa-hacker-news" aria-hidden="true"></i> News and Events</p>
+
+					<div class="topsec">
+						<p class="topsec_title">News</p>
+					</div>
+						
+						<div class="card">
+							<div class="card-body">
+								<div class="statisticsitem">
+									<div class="row">
+										<div class="col-lg-12">
+											There are no news or events currently.
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>	
+
+				</div>
+				<div class="col-lg-4">
+					<% include partials/adverts %>
+				</div>
+			</div>
+		</div>
+	</div>
+
+
+	<script>
+
+		var closeicon = document.getElementById("closeicon");
+		var introbarner = document.getElementById("introbarner");
+		
+		closeicon.addEventListener("click", function() {
+			introbarner.classList.add("hide")
+		})
+
+		var data = localStorage.getItem("variableName");
+
+
+	</script>
+
+<% include partials/footer %>

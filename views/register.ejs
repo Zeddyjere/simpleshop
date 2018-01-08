@@ -1,0 +1,60 @@
+<% include partials/header %>
+<% include partials/menu2 %>
+
+	<div class="divider"></div>
+	<div class="divider"></div>
+
+	<div class="container">
+		<div class="row">
+			<div class="col-lg-6">
+				<h4 class="greytext"><span class="greentext">Simple</span> Shop - <strong>Regsiter</strong></h4>
+				<hr>
+				<% if(errormessage && errormessage.length > 0) { %>
+					<div class="alert alert-danger" role="alert">
+					  <%= errormessage %>
+					</div>
+				<% } %>
+				<form action="/register" method="POST">
+				  <div class="form-row">
+				    <div class="form-group col-md-6">
+				      <label for="inputEmail4">Username</label>
+				      <input type="text" class="form-control" id="inputEmail4" placeholder="Username" name="username" onkeypress="this.value = this.value.toLowerCase();" required>
+				    </div>
+				    <div class="form-group col-md-6">
+				      <label for="inputPassword4">Password</label>
+				      <input type="password" class="form-control" id="inputPassword4" placeholder="Password" name="password" required>
+				    </div>
+				  </div>
+				  <div class="form-group">
+				    <label for="inputAddress">Email</label>
+				    <input type="email" class="form-control" id="inputAddress" placeholder="Email" name="email" required>
+				  </div>
+				  <div class="form-row">
+				    <div class="form-group col-md-6">
+				      <label for="inputEmail4">First Name</label>
+				      <input type="text" class="form-control" id="inputEmail4" placeholder="First Name" name="firstname" required>
+				    </div>
+				    <div class="form-group col-md-6">
+				      <label for="inputPassword4">Last Name</label>
+				      <input type="text" class="form-control" id="inputPassword4" placeholder="Last Name" name="lastname" required>
+				    </div>
+				  </div>
+				  <div class="divider"></div>
+				  <button type="submit" class="btn btn-info greenbtn">Register</button>
+				</form>
+			</div>
+			<div class="col-lg-6">
+
+				<div class="card custom_marginleft">
+					<div class="card-body">
+						<p>Simple shop is an easy way to manage your shop inventory and keep track of your profits and losses. We at Softstudio have created a system to help you add inventory, sell inventory, store records, generate invoices and much more. Its really simple to use. Make use of our handy feature "collaborating staff". With this, you can add different staff to manage your inventory for you, so all you have to do is sit back and watch your numbers. </p>
+						<p>You also have the power of managing permisions granted to your staff. And guess what, you can manage different shops under the same account! Pretty cool right? Add staff across your different branches and easily manage them on simple shop. Our statistics and analytics let you know whats selling and what's not- so you can make the necessary adjustments to improve your shop's(s') performance. Its never been this simple to get a visual perception of how your business is fairing on. Try simple shop today.</p>
+					</div>
+				</div>
+				<div class="smdivider"></div>
+			</div>
+		</div>
+	</div>
+
+
+<% include partials/footer %>

@@ -1,0 +1,78 @@
+<% include partials/header %>
+<% include partials/menu %>
+
+	<div class="row">
+		<div class="col-lg-3 customwidth ">
+			<% include partials/sidebar %>
+		</div>
+			<div class="col-lg-9 contentsection">
+				<div class="divider"></div>
+				<h3 class="shop-card-title">Shop Name: <%= shop.shopname %></h3><br>
+				<h6 class="greytext">The list below shows an inventory for the shop mentioned above</h6>
+
+				<div class="divider"></div>
+				<a href="/shops/<%= shop._id %>" id="addinventory"><i class="fa fa-chevron-left" aria-hidden="true"></i> Back to Shop Overview</a>&nbsp;&nbsp;
+				<a href="/shops/<%= shop._id %>/sellinventory" id="addinventory"><i class="fa fa-minus" aria-hidden="true"></i> Sell Inventory</a>&nbsp;&nbsp;
+				<a href="/shops/<%= shop._id %>/transactions" id="addinventory"><i class="fa fa-money" aria-hidden="true"></i> Shop transactions</a>
+				<div class="smdivider"></div>
+				<div class="topsec">
+
+					<div class="row">
+						<div class="col-lg-4">
+							<p class="topsec_title">Item Name</p>
+						</div>
+						<div class="col-lg-4 centertext">
+							<p class="topsec_title">Quantity</p>
+						</div>
+						<div class="col-lg-4"></div>
+					</div>
+				</div>
+
+				<% if(shop.shopinventory.length == 0) { %>
+					<div class="card centertext">
+						<div class="card-body">
+							<text>You do not have any items in your inventory list.</text>
+						</div>
+					</div>
+				<% } %>
+
+				<% shop.shopinventory.reverse().forEach(function(invento) { %>
+					<div class="card">
+						<div class="card-body">
+							<div class="statisticsitem">
+								<div class="row">
+									<div class="col-lg-4">
+										<span><%= invento.itemname %> | 
+											<% var total = 0 %>
+											<% invento.profitandloss.forEach(function(theprofitloss) { %>
+												<% total += theprofitloss.profitloss %>
+												
+											<% }) %>
+
+											<% if(total > 0) { %>
+												<span class="greentext"><i class="fa fa-caret-up" aria-hidden="true"></i> KSH: <%= total %></span>
+											<% } else if(total == 0) { %>
+												<span class="bluetext"><i class="fa fa-exchange" aria-hidden="true"></i> KSH: <%= total %></span>
+											<% } else { %>
+												<span class="redtext"><i class="fa fa-caret-down" aria-hidden="true"></i> KSH: <%= total %></span>
+											<% } %>
+
+										</span>
+									</div>
+									<div class="col-lg-4 centertext">
+										<span><%= invento.quantity %></span>
+									</div>
+									<div class="col-lg-4">
+										<button onclick="location.href='/shops/<%= shop._id %>/inventory/<%= invento._id %>';" class="btn btn-outline-success btn-sm pull-right"><i class="fa fa-pencil" aria-hidden="true"></i> Edit inventory</button>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+
+				<% }) %>
+
+			</div>
+	</div>
+
+<% include partials/footer %>

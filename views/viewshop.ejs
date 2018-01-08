@@ -1,0 +1,369 @@
+<% include partials/header.ejs %>
+<% include partials/menu %>
+		
+	<div class="row">
+		<div class="col-lg-3 customwidth">
+			<% include partials/sidebar %>
+		</div>
+		<div class="col-lg-9 contentsection">
+			<div class="divider"></div>
+			<div class="row">
+				<div class="col-lg-6">
+					<h3 class="shop-card-title">Shop Name: <%= shop.shopname %></h3><br>
+					<p class="greytext">Created by: <%= shop.shopowner %> </p>
+					<p class="smalltext">Date created: <%= shop.datecreated %> </p>
+
+					<% if(currentUser.typeaccount == "Administrator") { %>
+						<button class="btn btn-info greenbtn" data-toggle="modal" data-target="#shopModel">Edit this shop</button>
+						<form class="display-inline" action="/shops/<%= shop._id %>?_method=DELETE" method="POST">
+							<button onclick="return confirm('Are you sure you want to delete this shop?')" class="btn btn-danger">Delete this shop</button>
+						</form>
+					<% } %>
+					
+				</div>
+				<div class="col-lg-6">
+					<div class="card centertext">
+						<div class="card-body">
+							<p class="greentext"><i class="fa fa-newspaper-o" aria-hidden="true"></i> Live Shop Perfomance</p>
+							<h1 id="averagestyle"><i id="averageicon" aria-hidden="true"></i> <span id="averageview"></span></h1>
+					 	</div>
+					</div>
+				</div>
+			</div>
+			<hr>
+
+			<% if(shop.active == false) { %>
+				<div class="alert alert-warning" role="alert">
+				  This shop has been deactivated. Contact your employer for further assisstance.
+				</div>
+			<% } %>
+
+			<div id="shopcontainer">
+				<% if(successmessage && successmessage.length > 0) { %>
+					<div class="alert alert-success" role="alert">
+					  <%= successmessage %>
+					</div>
+				<% } %>
+
+				<% if(errormessage && errormessage.length > 0) { %>
+					<div class="alert alert-danger" role="alert">
+					  <%= errormessage %>
+					</div>
+				<% } %>
+
+				<div class="divider"></div>
+
+				<div class="row">
+					<div class="col-lg-12">
+						<span class="greentext"><i class="fa fa-archive" aria-hidden="true"></i> Shop Inventory</span>&nbsp;&nbsp;
+						<a id="addinventory" data-toggle="modal" data-target="#inventoryModel"><i class="fa fa-plus" aria-hidden="true"></i> Add Inventory</a>&nbsp;&nbsp;
+						<a href="/shops/<%= shop._id %>/sellinventory" id="addinventory"><i class="fa fa-minus" aria-hidden="true"></i> Sell Inventory</a>&nbsp;&nbsp;
+						<a href="/shops/<%= shop._id %>/inventory" id="addinventory"><i class="fa fa-eye" aria-hidden="true"></i> View all Inventory</a>&nbsp;&nbsp;
+						<a href="/shops/<%= shop._id %>/generateinvoice" id="addinventory"><i class="fa fa-credit-card" aria-hidden="true"></i> Generate Invoice</a>&nbsp;&nbsp;
+						<a href="/shops/<%= shop._id %>/transactions" id="addinventory"><i class="fa fa-money" aria-hidden="true"></i> Shop transactions</a>
+
+						
+
+						<div class="smdivider"></div>
+						
+						<div class="topsec">
+
+							<div class="row">
+								<div class="col-lg-4">
+									<p class="topsec_title">Item Name</p>
+								</div>
+								<div class="col-lg-4 centertext">
+									<p class="topsec_title">Quantity</p>
+								</div>
+								<div class="col-lg-4"></div>
+							</div>
+
+						</div>
+
+							<% if(shop.shopinventory.length == 0) { %>
+								<div class="card centertext">
+									<div class="card-body">
+										<text>You do not have any items in your inventory list.</text>
+									</div>
+								</div>
+							<% } %>
+
+							<% var shopaverage = [] %>
+
+							<% shop.shopinventory.slice(-5).reverse().forEach(function(invento) { %>
+								
+								<div class="card">
+									<div class="card-body">
+										<div class="statisticsitem">
+											<div class="row">
+												<div class="col-lg-4">
+													<span><%= invento.itemname %> | 
+														
+														<% var total = 0 %>
+														<% invento.profitandloss.forEach(function(theprofitloss) { %>
+															<% total += theprofitloss.profitloss %>										
+														<% }) %>
+
+														<% if(total > 0) { %>
+															<span class="greentext"><i class="fa fa-caret-up" aria-hidden="true"></i> KSH: <%= total %></span>
+														<% } else if(total == 0) { %>
+															<span class="bluetext"><i class="fa fa-exchange" aria-hidden="true"></i> KSH: <%= total %></span>
+														<% } else { %>
+															<span class="redtext"><i class="fa fa-caret-down" aria-hidden="true"></i> KSH: <%= total %></span>
+														<% } %>
+
+														<%  shopaverage.push(total); %>
+													</span>
+												</div>
+												<div class="col-lg-4 centertext">
+													<span><%= invento.quantity %></span>
+												</div>
+												<div class="col-lg-4">
+													<button onclick="location.href='/shops/<%= shop._id %>/inventory/<%= invento._id %>';" class="btn btn-outline-success btn-sm pull-right "> <i class="fa fa-pencil" aria-hidden="true"></i> Edit inventory</button>
+												</div>
+											</div>
+										</div>
+									</div>
+								</div>
+							<% }) %>
+					</div>
+				</div>
+
+				<div class="divider"></div>
+
+				<% if(currentUser.typeaccount == "Administrator") { %>
+					
+					<div class="row">
+							<div class="col-lg-12">
+
+								<div id="accordion" role="tablist">
+								  <div class="card">
+								    <div class="card-header" role="tab" id="headingOne">
+								      <h5 class="mb-0">
+								        <a class="greentext" data-toggle="collapse" href="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
+								          Staff Members under this Shop
+								        </a>
+								      </h5>
+								    </div>
+
+								    <div id="collapseOne" class="collapse show" role="tabpanel" aria-labelledby="headingOne" data-parent="#accordion">
+
+								    <% if(shop.staffmembers.length == 0) { %>
+										<div class="card centertext">
+											<div class="card-body">
+												<text>You do not have any staff collaborators under this shop yet.</text>
+											</div>
+										</div>
+									<% } %>
+
+								   	<% shop.staffmembers.reverse().forEach(function(staff) { %>
+								   		
+								   		<div class="card">
+									      <div class="card-body">
+									        <div class="statisticsitem">
+												<div class="row">
+													<div class="col-lg-4">
+														<span><%= staff.firstname %> <%= staff.lastname %></span>
+													</div>
+													<div class="col-lg-4"></div>
+													<div class="col-lg-4 align-right">
+
+														<form class="pos-inline" action="/shops/<%= shop._id %>/registerstaff/<%= staff._id %>?_method=DELETE" method="POST">
+															<button onclick="return confirm('Are you sure you want to remove this staff under this shop??')" class="btn btn-outline-danger btn-sm">Remove Staff</button>
+														</form>
+
+													</div>
+												</div>
+											</div>
+									      </div>
+									     </div>
+								   	<% }) %>
+
+								   	</div>
+
+								  </div>
+								</div>
+
+								<!-- Form for adding staff members -->
+								<div class="divider"></div>
+
+								<div class="topsec"><p class="topsec_title">Add Staff Collaborators to this Shop</p></div>
+								<div class="card">
+									<div class="card-body">
+										<form action="<%= shop._id %>/registerstaff" method="POST">
+										  <div class="form-row">
+										    <div class="form-group col-md-6">
+										      <label for="username">Username</label>
+										      <input type="text" class="form-control" id="username" placeholder="Username" name="username" onkeypress="this.value = this.value.toLowerCase();" required>
+										    </div>
+										    <div class="form-group col-md-6">
+										      <label for="password">Password</label>
+										      <input type="password" class="form-control" id="password" placeholder="Password" name="password" required>
+										    </div>
+										  </div>
+										  <div class="form-group">
+										    <label for="email">Email</label>
+										    <input type="email" class="form-control" id="email" placeholder="Email" name="email" required>
+										  </div>
+										  <div class="form-row">
+										    <div class="form-group col-md-6">
+										      <label for="firstname">First Name</label>
+										      <input type="text" class="form-control" id="firstname" placeholder="First Name" name="firstname" required>
+										    </div>
+										    <div class="form-group col-md-6">
+										      <label for="lastname">Last Name</label>
+										      <input type="text" class="form-control" id="lastname" placeholder="Last Name" name="lastname" required>
+										    </div>
+										  </div>
+										  <div class="divider"></div>
+										  <button type="submit" class="btn btn-info greenbtn">Register Staff</button>
+										</form>
+									</div>
+								</div>
+						
+								<div class="divider"></div>
+								<div class="divider"></div>
+
+							</div>
+						</div>
+					</div>
+
+				<% } %>
+			</div>
+
+			
+
+	<!-- Modal ONE FOR EDITING SHOP -->
+	<div class="modal fade" id="shopModel" tabindex="-1" role="dialog" aria-labelledby="shopModalLabel" aria-hidden="true">
+	  <div class="modal-dialog" role="document">
+	    <div class="modal-content">
+	      <div class="modal-header greenbackground">
+	        <h5 class="modal-title" id="shopModalLabel"><i class="fa fa-shopping-cart" aria-hidden="true"></i> Edit this Shop</h5>
+	        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+	          <i class="fa fa-times" aria-hidden="true"></i>
+	        </button>
+	      </div>
+	      <div class="modal-body generalpadding">
+	        <form action="/shops/<%= shop._id %>?_method=PUT" method="POST">
+			  <div class="form-group">
+			    <label class="greytext smalltext" for="shopid">Shop ID</label>
+			    <input type="text" class="form-control" id="shopid" aria-describedby="emailHelp" placeholder="<%= shop._id %>" readonly>
+			  </div>
+			  <div class="form-group">
+			    <label class="greytext smalltext" for="shopnameedit">Shop Name</label>
+			    <input type="text" class="form-control" id="shopnameedit" aria-describedby="emailHelp" value="<%= shop.shopname %>" name="shop[shopname]" required>
+			  </div>
+			  <div class="form-group">
+			    <label class="greytext smalltext" for="exampleInputEmail1">Status (Active) </label>
+			    <input type="text" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" value="<%= shop.active %>" name="shop[active]" disabled>
+			  </div>
+
+			  <div class="form-group">
+			    <label class="greytext smalltext" for="exampleInputEmail1">Owner Name</label>
+			    <input type="text" class="form-control" id="exampleInputEmail" aria-describedby="emailHelp" value="<%= shop.shopowner %>" name="shop[shopowner]" required>
+			  </div>
+
+			  <div class="form-group">
+			    <label class="greytext smalltext" for="shopType">Shop Type</label>
+			    <select class="form-control" id="shopType" name="shop[shoptype]" required>
+			      <option>Supermarket</option>
+			      <option>Big Shop</option>
+			      <option>Small Shop</option>
+			    </select>
+			  </div>
+
+			  <div class="divider"></div>
+
+			  <button type="submit" class="btn btn-info greenbtn">Edit this shop</button>
+			  <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+			</form>
+	      </div>
+	    </div>
+	  </div>
+	</div>
+
+	<!-- End of the model -->
+
+	<!-- Modal TWO FOR ADDING INVENTORY -->
+	<div class="modal fade" id="inventoryModel" tabindex="-1" role="dialog" aria-labelledby="inventoryModalLabel" aria-hidden="true">
+	  <div class="modal-dialog" role="document">
+	    <div class="modal-content">
+	      <div class="modal-header greenbackground">
+	        <h5 class="modal-title" id="shopModalLabel"><i class="fa fa-archive" aria-hidden="true"></i> Add Inventory to Shop</h5>
+	        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+	          <i class="fa fa-times" aria-hidden="true"></i>
+	        </button>
+	      </div>
+	      <div class="modal-body generalpadding">
+	        <form action="/shops/<%= shop._id %>/inventory" method="POST">
+			  <div class="form-group">
+			    <label class="greytext smalltext" for="shopname">Shop Name</label>
+			    <input type="text" class="form-control" id="shopname" aria-describedby="emailHelp" placeholder="<%= shop.shopname %>" readonly>
+			  </div>
+			  <div class="form-group">
+			    <label class="greytext smalltext" for="itemname">Item Name</label>
+			    <input type="text" class="form-control" id="itemname" aria-describedby="emailHelp" name="inventory[itemname]" required>
+			  </div>
+			  <div class="form-group">
+			    <label class="greytext smalltext" for="itembprice">Item Buying Price (Each)</label>
+			    <input type="number" class="form-control" id="itembprice" aria-describedby="emailHelp" name="inventory[itembprice]" placeholder="in KSH" required>
+			  </div>
+			  <div class="form-group">
+			    <label class="greytext smalltext" for="itemsprice">Item Selling Price (Each)</label>
+			    <input type="number" class="form-control" id="itemsprice" aria-describedby="emailHelp" name="inventory[itemsprice]" placeholder="in KSH" required>
+			  </div>
+			  <div class="form-group">
+			    <label class="greytext smalltext" for="quantity">Quantity</label>
+			    <input type="number" class="form-control" id="quantity" aria-describedby="emailHelp" name="inventory[quantity]" placeholder="Number of items" required>
+			  </div>
+
+			 <div class="form-group">
+			    <input type="text" class="form-control" id="profitloss" value="<%= currentUser.username %>" name="theuser" hidden> 
+			</div>
+			  
+
+			  <div class="divider"></div>
+
+			  <button type="submit" class="btn btn-info greenbtn">Add Inventory</button>
+			  <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+			</form>
+	      </div>
+	    </div>
+	  </div>
+	</div>
+
+	<!-- End of the model TWO -->
+
+	<script>
+		var averageview = document.getElementById("averageview");
+		var averagestyle = document.getElementById("averagestyle");
+		var averageicon = document.getElementById("averageicon");
+		var shopcontainer = document.getElementById("shopcontainer");
+		var status = <%= shop.active %>
+
+		if(status == "false") {
+			shopcontainer.classList.add("hide");
+		} 
+		var sum = <%= shopaverage.reduce(function(a, b) { return a + b; }, 0); %>;
+		var formattedsum = sum.toLocaleString();
+		averageview.textContent = "KSH" + " " +  formattedsum;
+
+		
+
+		// check the value of some and place the correct styles
+		if(sum > 0) {
+			averagestyle.classList.add("greentext");
+			averageicon.setAttribute("class", "fa fa-caret-up");
+		} else if (sum < 0) {
+			averagestyle.classList.add("redtext");
+			averageicon.setAttribute("class", "fa fa-caret-down");
+		} else {
+			averagestyle.classList.add("bluetext");
+			averageicon.setAttribute("class", null);
+		}
+
+
+
+	</script>
+	
+<% include partials/footer.ejs %>

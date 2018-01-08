@@ -1,0 +1,65 @@
+<% include partials/header.ejs %>
+<% include partials/menu %>
+
+	<div class="row">
+		<div class="col-lg-3 customwidth">
+			<% include partials/sidebar %>
+		</div>
+		<div class="col-lg-9 contentsection">
+			<div class="divider"></div>
+			<h4 class="greytext">Notifications</h4>
+			<p class="greytext">All your notifications will be found here.</p>
+			<div class="divider"></div>
+
+			<div class="smdivider"></div>
+
+			<div class="list-group">
+
+				<% if(user.notifications.length == null || user.notifications.length == 0) { %>
+					<div class="card centertext">
+						<div class="card-body">
+							<text>You do not have any notifications at the moment.</text>
+						</div>
+					</div>
+				<% } %>
+
+				<% user.notifications.reverse().forEach(function(thenotification) { %>
+
+					<% if(thenotification.read == false) { %>
+						<form action="/notifications/<%= thenotification._id %>?_method=PUT" method="POST">
+							<input type="text" value="<%= thenotification.body %>" name="notification[body]" hidden> 
+				 			<input type="text" value="true" name="notification[read]" hidden> 
+							<button class="list-group-item list-group-item-action list-group-item-secondary">
+							  	<div class="row">
+							  		<div class="col-lg-6">
+							  			<%= thenotification.body %>
+							  		</div>
+							  		<div class="col-lg-6 align-right">
+							  			<text class="smalltext"><%= thenotification.datecreated %></text>
+							  		</div>
+							  	</div>
+							 </button>
+						</form>
+						
+					<% } else { %>
+						<div class="list-group-item list-group-item-action list-group-item-light">
+						  	<div class="row">
+						  		<div class="col-lg-6">
+						  			<%= thenotification.body %>
+						  		</div>
+						  		<div class="col-lg-6 align-right">
+						  			<text class="smalltext"><%= thenotification.datecreated %></text>
+						  		</div>
+						  	</div>
+						 </div>
+					<% } %>
+
+				<% }) %>
+
+				 
+
+			</div>
+		</div>
+	</div>
+
+<% include partials/footer.ejs %>
