@@ -21,7 +21,9 @@ var invoiceRoutes = require("./routes/invoice");
 var statsRoutes = require("./routes/trends");
 
 // connect to the database
-var dburl = "mongodb://localhost/simple-shop";
+// var dburl = "mongodb://localhost/simple-shop";
+var dburl = "mongodb://zeddyjere:redzilla@ds245287.mlab.com:45287/simpleshop";
+
 mongoose.connect(dburl, function(err, res) {
 	if(err) {
 		console.log("DB CONNECTION FAILED" + err);
