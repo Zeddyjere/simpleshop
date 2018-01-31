@@ -1,0 +1,63 @@
+<% include partials/header %>
+<% include partials/menu %>
+
+		<div class="divider"></div>
+
+		<div class="row">
+			<div class="col-md-4">
+				<div class="card-body">
+					<div class="card generalpadding smalltext">
+						<strong>NOTE THAT:</strong> Profit and loss calculations will be affected by the change of the Buying Price, Selling Price and/or Quantity fields. <br><br>
+						<span><strong>Deleting a Sparepart</strong> will entirely remove this sparepart from your shop and the system will act like it never existed. The profit/loss will <strong>NOT</strong> be calculated. <br><br>
+						<em>For these calculations to occur, you must sell the sparepart.</em></span>
+					</div>
+				</div>
+			</div>
+			<div class="col-md-5">
+
+				<a href="/cshops/<%= cshop._id %>/bikes/<%= bike._id %>" id="addinventory"><i class="fa fa-chevron-left" aria-hidden="true"></i> Back</a>
+				<div class="smdivider"></div>
+
+				<div class="login-header greenbackground"><text>Simple Shop - <strong>Edit Sparepart</strong></text></div>
+				<div class="card">
+					<div class="card-body generalpadding">
+						<form action="/cshops/<%= cshop._id %>/bikes/<%= bike._id %>/spareparts/<%= sparepart._id %>/edit?_method=PUT" method="POST">
+						  <div class="form-group">
+						    <label class="greytext smalltext" for="bikename">Bike Name</label>
+						    <input type="text" class="form-control" id="bikename" aria-describedby="emailHelp" placeholder="<%= bike.bikename %>" readonly>
+						  </div>
+						  <div class="form-group">
+						    <label class="greytext smalltext" for="partname">Sparepart Name</label>
+						    <input type="text" class="form-control" id="partname" aria-describedby="emailHelp" name="sparepart[partname]" value="<%= sparepart.partname %>" required>
+						  </div>
+						  <div class="form-group">
+						    <label class="greytext smalltext" for="partnumber">Sparepart Number</label>
+						    <input type="text" class="form-control" id="partnumber" aria-describedby="emailHelp" name="sparepart[partnumber]" value="<%= sparepart.partnumber %>" required>
+						  </div>
+						  <div class="form-group">
+						    <label class="greytext smalltext" for="quantity">Quantity</label>
+						    <input type="number" class="form-control" id="quantity" aria-describedby="emailHelp" name="sparepart[quantity]" value="<%= sparepart.quantity %>" required>
+						  </div>
+						  <div class="form-group">
+						    <label class="greytext smalltext" for="unitbprice">Buying Price</label>
+						    <input type="number" class="form-control" id="unitbprice" aria-describedby="emailHelp" name="sparepart[unitbprice]" value="<%= sparepart.unitbprice %>" value="" required>
+						  </div>
+						  <div class="form-group">
+						    <label class="greytext smalltext" for="unitsprice">Selling Price</label>
+						    <input type="number" class="form-control" id="unitsprice" aria-describedby="emailHelp" name="sparepart[unitsprice]" value="<%= sparepart.unitsprice %>" value="" required>
+						  </div>
+
+						  <input type="text" class="form-control" id="profitloss" value="<%= currentUser.username %>" name="theuser" hidden> 
+
+						  <button type="submit" class="btn btn-info btn-sm greenbtn">Edit Sparepart</button>
+						</form>
+					</div>
+				</div>
+
+				<div class="smdivider"></div>
+
+			</div>
+			<div class="col-md-3"></div>
+		</div>
+
+<% include partials/footer %>

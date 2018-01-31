@@ -23,41 +23,98 @@
 			          <i class="fa fa-times" aria-hidden="true"></i>
 			        </button>
 			      </div>
-			      <div class="modal-body generalpadding">
-			        <form action="/shops" method="POST">
-					  <div class="form-group">
-					    <label class="greytext smalltext" for="exampleInputEmail1">Shop ID</label>
-					    <input type="text" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="A unique ID will be generated ..." readonly>
+
+			      <div class="smdivider"></div>
+
+			      <nav>
+					  <div class="nav nav-tabs" id="nav-tab" role="tablist">
+					    <a class="nav-item nav-link active" id="nav-home-tab" data-toggle="tab" href="#nav-home" role="tab" aria-controls="nav-home" aria-selected="true">Normal Shop</a>
+					    <a class="nav-item nav-link" id="nav-profile-tab" data-toggle="tab" href="#nav-profile" role="tab" aria-controls="nav-profile" aria-selected="false">Custom Shops</a>
 					  </div>
-					  <div class="form-group">
-					    <label class="greytext smalltext" for="exampleInputEmail1">Shop Name</label>
-					    <input type="text" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Enter shop name" name="shop[shopname]" required>
-					  </div>
-					  <div class="form-group">
-					    <label class="greytext smalltext" for="exampleInputEmail1">Owner Name</label>
-					    <input type="text" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Enter owner name" name="shop[shopowner]" required>
-					  </div>
-					  <div class="form-group">
-					    <input type="text" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" value="<%= currentUser._id %>" name="shop[shopownerid]" hidden>
-					  </div>
-					  <div class="form-group">
-					    <input type="text" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" value=true name="shop[active]" hidden>
-					  </div>
-					  <div class="form-group">
-					    <label class="greytext smalltext" for="shopType">Shop Type</label>
-					    <select class="form-control" id="shopType" name="shop[shoptype]" required>
-					      <option>Supermarket</option>
-					      <option>Big Shop</option>
-					      <option>Small Shop</option>
-					    </select>
+					</nav>
+
+					<!-- Normal Shop -->
+
+					<div class="tab-content" id="nav-tabContent">
+					  <div class="tab-pane fade show active" id="nav-home" role="tabpanel" aria-labelledby="nav-home-tab">
+					  	<div class="modal-body generalpadding">
+					        <form action="/shops" method="POST">
+							  <div class="form-group">
+							    <label class="greytext smalltext" for="exampleInputEmail1">Shop ID</label>
+							    <input type="text" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="A unique ID will be generated ..." readonly>
+							  </div>
+							  <div class="form-group">
+							    <label class="greytext smalltext" for="exampleInputEmail1">Shop Name</label>
+							    <input type="text" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Enter shop name" name="shop[shopname]" required>
+							  </div>
+							  <div class="form-group">
+							    <label class="greytext smalltext" for="exampleInputEmail1">Owner Name</label>
+							    <input type="text" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Enter owner name" name="shop[shopowner]" required>
+							  </div>
+							  <div class="form-group">
+							    <input type="text" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" value="<%= currentUser._id %>" name="shop[shopownerid]" hidden>
+							  </div>
+							  <div class="form-group">
+							    <input type="text" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" value=true name="shop[active]" hidden>
+							  </div>
+							  <div class="form-group">
+							    <label class="greytext smalltext" for="shopType">Shop Type</label>
+							    <select class="form-control" id="shopType" name="shop[shoptype]" required>
+							      <option>Supermarket</option>
+							      <option>Big Shop</option>
+							      <option>Small Shop</option>
+							    </select>
+							  </div>
+
+							  <div class="divider"></div>
+
+							  <button type="submit" class="btn btn-info greenbtn">Create this shop</button>
+							  <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+							</form>
+					      </div>
 					  </div>
 
-					  <div class="divider"></div>
+					  <!-- Custom shop Form -->
 
-					  <button type="submit" class="btn btn-info greenbtn">Create this shop</button>
-					  <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
-					</form>
-			      </div>
+					  <div class="tab-pane fade" id="nav-profile" role="tabpanel" aria-labelledby="nav-profile-tab">
+					  	<div class="modal-body generalpadding">
+					        <form action="/cshops" method="POST">
+							  <div class="form-group">
+							    <label class="greytext smalltext" for="exampleInputEmail1">Shop ID</label>
+							    <input type="text" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="A unique ID will be generated ..." readonly>
+							  </div>
+							  <div class="form-group">
+							    <label class="greytext smalltext" for="exampleInputEmail1">Shop Name</label>
+							    <input type="text" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Enter shop name" name="cshop[shopname]" required>
+							  </div>
+							  <div class="form-group">
+							    <label class="greytext smalltext" for="exampleInputEmail1">Owner Name</label>
+							    <input type="text" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Enter owner name" name="cshop[shopowner]" required>
+							  </div>
+							  <div class="form-group">
+							    <input type="text" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" value="<%= currentUser._id %>" name="cshop[shopownerid]" hidden>
+							  </div>
+							  <div class="form-group">
+							    <input type="text" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" value=true name="cshop[active]" hidden>
+							  </div>
+							  <div class="form-group">
+							    <label class="greytext smalltext" for="shopType">Custom Shop</label>
+							    <select class="form-control" id="shopType" name="cshop[shoptype]" required>
+							      <option>Bike Spare Parts Shop</option>
+							    </select>
+							  </div>
+
+							  <div class="divider"></div>
+
+							  <button type="submit" class="btn btn-info greenbtn">Create this custom shop</button>
+							  <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+							</form>
+					      </div>
+					  </div>
+					</div>
+
+
+			      
 			    </div>
 			  </div>
 			</div>
@@ -85,6 +142,35 @@
 								<p class="shop-card-text">Owner: <%= shop.shopowner %></p>	
 								<div class="centertext">
 									<a  href="/shops/<%= shop._id %>" class="btn btn-info greenbtn">View</a>		
+								</div>	
+							</div>
+						</div>
+					</div>
+				<% }) %>
+
+			</div>
+
+			<hr>
+
+			<div class="divider"></div>
+
+			<h4 class="greytext">Custom Shops</h4>
+			<p class="greytext">These are shops that have a customally architectured database by simpleshop to meet your needs.</p>
+
+			<div class="row">
+
+				<% user.cshopsowned.forEach(function(cshop) { %>
+					<div class="col-lg-3 col-md-6">
+						<div class="card margin-bottom">
+							<div class="card-body">
+								<div class="centertext">
+									<img src="https://image.ibb.co/cpn1nw/simpleshop_logo.jpg">
+								</div>
+								<hr>
+								<p class="shop-card-title"><%= cshop.shopname %></p>			
+								<p class="shop-card-text">Owner: <%= cshop.shopowner %> <span class="greentext">(Custom Shop)</span></p>	
+								<div class="centertext">
+									<a  href="/cshops/<%= cshop._id %>" class="btn btn-info greenbtn">View</a>		
 								</div>	
 							</div>
 						</div>

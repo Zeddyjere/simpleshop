@@ -21,6 +21,12 @@ var UserSchema = new mongoose.Schema({
 			type: mongoose.Schema.Types.ObjectId,
             ref: "Shop"
 		}
+	],
+	cshopsowned: [
+		{
+			type: mongoose.Schema.Types.ObjectId,
+            ref: "CShop"
+		}
 	]
 })
 

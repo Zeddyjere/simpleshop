@@ -1,0 +1,257 @@
+<% include partials/header.ejs %>
+<% include partials/menu %>
+
+	<div class="row">
+		<div class="col-lg-3 customwidth">
+			<% include partials/sidebar %>
+		</div>
+		<div class="col-lg-9 contentsection">
+			<div class="divider"></div>
+			<div class="row">
+				<div class="col-lg-6">
+					<h3 class="shop-card-title">Shop Name: <%= cshop.shopname %></h3><br>
+					<p class="greytext">Created by: <%= cshop.shopowner %> </p>
+					<p class="smalltext">Shop Type: <span class="greentext"><%= cshop.shoptype %></span> </p>
+
+					<% if(currentUser.typeaccount == "Administrator") { %>
+						<button class="btn btn-info greenbtn" data-toggle="modal" data-target="#cshopModel">Edit this shop</button>
+						<form class="display-inline" action="/cshops/<%= cshop._id %>?_method=DELETE" method="POST">
+							<button onclick="return confirm('Are you sure you want to delete this shop?')" class="btn btn-danger">Delete this shop</button>
+						</form>
+					<% } %>
+					
+				</div>
+				<div class="col-lg-6">
+					<div class="card centertext">
+						<div class="card-body">
+							<p class="greentext"><i class="fa fa-newspaper-o" aria-hidden="true"></i> Live Shop Perfomance</p>
+							<h1 id="averagestyle"><i id="averageicon" aria-hidden="true"></i> <span id="averageview">KSH 0</span></h1>
+					 	</div>
+					</div>
+				</div>
+			</div>
+
+			<hr>
+
+			<% if(cshop.active == false) { %>
+				<div class="alert alert-warning" role="alert">
+				  This shop has been deactivated. Contact your employer for further assisstance.
+				</div>
+			<% } %>
+
+			<div id="shopcontainer">
+				<div class="row">
+					<div class="col-lg-12">
+						<a id="addinventory" data-toggle="modal" data-target="#bikeModel"><i class="fa fa-plus" aria-hidden="true"></i> Add Bike</a>&nbsp;&nbsp;
+						<a href="/cshops/<%= cshop._id %>/transactions" id="addinventory"><i class="fa fa-money" aria-hidden="true"></i> Shop transactions</a>
+					</div>
+				</div>
+
+				<div class="smdivider"></div>
+				<div class="smdivider"></div>
+
+				<form>
+					<input type="search" class="form-control" placeholder="Seach for a bike model" id="bikesearch" onkeyup="myFunction()">
+				</form>
+
+				<div class="divider"></div>
+
+				<div class="row">
+					<% var shopaverage = [] %>
+
+					<% cshop.bikes.forEach(function(bike) { %>
+						<% bike.spareparts.forEach(function(part) { %>
+							<% var total = 0 %>
+
+							<% part.profitandloss.forEach(function(theprofitloss) { %>
+								<% total += theprofitloss.profitloss %>	
+						 	<% }) %>
+
+						 	<%  shopaverage.push(total); %>
+						<% }) %>
+
+						<div onclick="window.location.href='/cshops/<%= cshop._id %>/bikes/<%= bike._id %>'" class="col-lg-3">
+							<div class="card bike-card">
+								<div class="card-body bikecardin">
+									<h5><%= bike.bikename %></h5>
+									<p class="smalltext">Model: <%= bike.bikemodel %></p>
+								</div>
+							</div>
+						</div>	
+					<% }) %>
+				</div>
+			</div>
+
+		</div>
+	</div>
+
+	<!-- MODAL FOR EDITTING CUSTOM SHOP -->
+	<div class="modal fade" id="cshopModel" tabindex="-1" role="dialog" aria-labelledby="cshopModalLabel" aria-hidden="true">
+	  <div class="modal-dialog" role="document">
+	    <div class="modal-content">
+	      <div class="modal-header greenbackground">
+	        <h5 class="modal-title" id="shopModalLabel"><i class="fa fa-shopping-cart" aria-hidden="true"></i> Edit this Shop</h5>
+	        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+	          <i class="fa fa-times" aria-hidden="true"></i>
+	        </button>
+	      </div>
+	      <div class="modal-body generalpadding">
+	        <form action="/cshops/<%= cshop._id %>?_method=PUT" method="POST">
+			  <div class="form-group">
+			    <label class="greytext smalltext" for="shopid">Shop ID</label>
+			    <input type="text" class="form-control" id="shopid" aria-describedby="emailHelp" placeholder="<%= cshop._id %>" readonly>
+			  </div>
+			  <div class="form-group">
+			    <label class="greytext smalltext" for="shopnameedit">Shop Name</label>
+			    <input type="text" class="form-control" id="shopnameedit" aria-describedby="emailHelp" value="<%= cshop.shopname %>" name="cshop[shopname]" required>
+			  </div>
+
+			  <div class="form-group">
+			    <label class="greytext smalltext" for="exampleInputEmail1">Owner Name</label>
+			    <input type="text" class="form-control" id="exampleInputEmail" aria-describedby="emailHelp" value="<%= cshop.shopowner %>" name="cshop[shopowner]" required>
+			  </div>
+
+			  <div class="form-group">
+			    <label class="greytext smalltext" for="exampleInputEmail1">Status (Active) </label>
+			    <input type="text" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" value="<%= cshop.active %>" name="cshop[active]" disabled>
+			  </div>
+
+			  <div class="form-group">
+			    <label class="greytext smalltext" for="shopType">Shop Type</label>
+			    <input type="text" name="cshop[shoptype]" value="<%= cshop.shoptype %>" class="form-control" disabled>
+			  </div>
+
+			  <div class="divider"></div>
+
+			  <button type="submit" class="btn btn-info greenbtn">Edit this shop</button>
+			  <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+			</form>
+	      </div>
+	    </div>
+	  </div>
+	</div>
+
+	<!-- MODAL FOR ADDING BIKES -->
+	<div class="modal fade" id="bikeModel" tabindex="-1" role="dialog" aria-labelledby="bikeModalLabel" aria-hidden="true">
+	  <div class="modal-dialog" role="document">
+	  	<div class="modal-content">
+	      <div class="modal-header greenbackground">
+	        <h5 class="modal-title" id="shopModalLabel"><i class="fa fa-motorcycle" aria-hidden="true"></i> Add Bikes</h5>
+	        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+	          <i class="fa fa-times" aria-hidden="true"></i>
+	        </button>
+	      </div>
+
+	      <div class="smdivider"></div>
+
+	      <nav>
+			  <div class="nav nav-tabs" id="nav-tab" role="tablist">
+			    <a class="nav-item nav-link active" id="nav-home-tab" data-toggle="tab" href="#nav-home" role="tab" aria-controls="nav-home" aria-selected="true">Single Bike</a>
+			    <a class="nav-item nav-link" id="nav-profile-tab" data-toggle="tab" href="#nav-profile" role="tab" aria-controls="nav-profile" aria-selected="false">Multiple Bikes</a>
+			  </div>
+			</nav>
+
+			<!-- Single Bike Upload -->
+
+			<div class="tab-content" id="nav-tabContent">
+			  <div class="tab-pane fade show active" id="nav-home" role="tabpanel" aria-labelledby="nav-home-tab">
+			  	<div class="modal-body generalpadding">
+			        <form action="/cshops/<%= cshop._id %>/bikes" method="POST">
+					  <div class="form-group">
+					    <label class="greytext smalltext" for="shopname">Shop Name</label>
+					    <input type="text" class="form-control" id="shopname" aria-describedby="emailHelp" placeholder="<%= cshop.shopname %>" readonly>
+					  </div>
+					  <div class="form-group">
+					    <label class="greytext smalltext" for="bikename">Bike Name</label>
+					    <input type="text" class="form-control" id="bikename" aria-describedby="emailHelp" name="bike[bikename]" required>
+					  </div>
+
+					  <div class="form-group">
+					    <label class="greytext smalltext" for="bikemodel">Bike Model</label>
+					    <input type="text" class="form-control" id="bikemodel" aria-describedby="emailHelp" name="bike[bikemodel]" required>
+					  </div>	  
+
+					  <div class="divider"></div>
+
+					  <button type="submit" class="btn btn-info greenbtn">Add Bike</button>
+					  <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+					</form>
+			    </div>
+			  </div>
+
+			  <!-- Adding Multiple Bikes -->
+
+			  <div class="tab-pane fade" id="nav-profile" role="tabpanel" aria-labelledby="nav-profile-tab">
+			  	<div class="modal-body generalpadding">
+
+					<h4 class="greytext">Adding multiple bikes</h4>
+					<p class="greytext">With this feature, you can upload multiple bikes under this shop at once using an excel sheet. To download a sample excel.csv file <span><a href="/cshops/<%= cshop._id %>/uploadbikes/template" id="clickhere">Click Here</a></span>.</p>
+
+					<form action="/cshops/<%= cshop._id %>/uploadbikes" method="POST" encType="multipart/form-data">
+				        <input type="file" class="form-control-file" name="file" accept="*.csv" /><br/><br/>
+				        <button class="btn btn-info greenbtn"><i class="fa fa-plus-square-o" aria-hidden="true" value="Upload Authors"></i> Upload CSV File</button>
+				    </form>
+
+			      </div>
+			  </div>
+			</div>
+	    </div>
+	  </div>
+	</div>
+
+	<!-- End of the model TWO -->
+
+	<script>
+		function myFunction() {
+		  // Declare variables 
+		  var input, filter, table, tr, td, i;
+		  input = document.getElementById("bikesearch");
+		  filter = input.value.toUpperCase();
+		  bikeCard = document.getElementsByClassName("bike-card");
+
+		  // Loop through all table rows, and hide those who don't match the search query
+		  for (i = 0; i < bikeCard.length; i++) {
+		    bikecardin = bikeCard[i].getElementsByClassName("bikecardin")[0];
+		    if (bikecardin) {
+		      if (bikecardin.innerHTML.toUpperCase().indexOf(filter) > -1) {
+		        bikeCard[i].style.display = "";
+		      } else {
+		        bikeCard[i].style.display = "none";
+		      }
+		    } 
+		  }
+		}
+
+		// Takes care of shop average performance
+
+		var averageview = document.getElementById("averageview");
+		var averagestyle = document.getElementById("averagestyle");
+		var averageicon = document.getElementById("averageicon");
+		var shopcontainer = document.getElementById("shopcontainer");
+		var status = <%= cshop.active %>;
+
+		if(status == "false") {
+			shopcontainer.classList.add("hide");
+		} 
+		var sum = <%= shopaverage.reduce(function(a, b) { return a + b; }, 0); %>;
+		var formattedsum = sum.toLocaleString();
+		averageview.textContent = "KSH" + " " +  formattedsum;
+
+		
+
+		// check the value of some and place the correct styles
+		if(sum > 0) {
+			averagestyle.classList.add("greentext");
+			averageicon.setAttribute("class", "fa fa-caret-up");
+		} else if (sum < 0) {
+			averagestyle.classList.add("redtext");
+			averageicon.setAttribute("class", "fa fa-caret-down");
+		} else {
+			averagestyle.classList.add("bluetext");
+			averageicon.setAttribute("class", null);
+		}
+	</script>
+
+
+
+<% include partials/footer.ejs %>

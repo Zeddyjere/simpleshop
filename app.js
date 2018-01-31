@@ -8,6 +8,9 @@ var express 				= require("express"),
  	passport 				= require("passport"),
  	LocalStrategy 			= require("passport-local"),
  	passportLocalMongoose 	= require("passport-local-mongoose"),
+ 	json2csv 				= require('json2csv'),
+	csv 					= require("fast-csv"),
+ 	fileUpload 				= require("express-fileupload"),
  	flash 				 	= require("connect-flash"),
  	DropDB 					= require("./caution_dropdata.js") // Don't mess with this line bruh!
 
@@ -19,10 +22,13 @@ var staffRoutes = require("./routes/staff");
 var transactionRoutes = require("./routes/transactions");
 var invoiceRoutes = require("./routes/invoice");
 var statsRoutes = require("./routes/trends");
+var customShopRoutes = require("./routes/cshop");
+var bikeRoutes = require("./routes/bike");
+var sparepartRoutes = require("./routes/sparepart");
 
 // connect to the database
-// var dburl = "mongodb://localhost/simple-shop";
-var dburl = "mongodb://zeddyjere:redzilla@ds245287.mlab.com:45287/simpleshop";
+var dburl = "mongodb://localhost/simple-shop";
+// var dburl = "mongodb://zeddyjere:redzilla@ds245287.mlab.com:45287/simpleshop";
 
 mongoose.connect(dburl, function(err, res) {
 	if(err) {
@@ -38,6 +44,7 @@ app.use(express.static("public"))
 app.use(bodyParser.urlencoded({extended: true}));
 app.use(methodOverride("_method"));
 app.use(flash());
+app.use(fileUpload());
 
 
 // Passport Configuration
@@ -66,14 +73,17 @@ app.use(function(req,res, next) {
 
 app.use(indexRoutes);
 app.use(shopRoutes);
+app.use(customShopRoutes);
 app.use(inventoryRoutes);
 app.use(staffRoutes);
 app.use(transactionRoutes);
 app.use(invoiceRoutes);
 app.use(statsRoutes);
+app.use(bikeRoutes);
+app.use(sparepartRoutes);
 
 
 // App listen
-app.listen(process.env.PORT, function() {
-	console.log("The server is listening on port 3000");
+app.listen(process.env.PORT || 5000, function() {
+	console.log("The server is listening on port 5000");
 })

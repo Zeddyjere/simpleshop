@@ -1,0 +1,41 @@
+<% include partials/header.ejs %>
+<% include partials/menu %>
+
+	<div class="row">
+		<div class="col-lg-3 customwidth">
+			<% include partials/sidebar %>
+		</div>
+		<div class="col-lg-9 contentsection">
+			<div class="divider"></div>
+
+			<h4 class="greytext">Adding multiple shops</h4>
+			<p class="greytext">With this feature, you can upload multiple shops into your account at once using an excel sheet. To download a sample excel.csv file <span><a href="/uploadshops/template" id="clickhere">Click Here</a></span>.</p>
+
+			<form action="/uploadshops" method="POST" encType="multipart/form-data">
+		        <input type="file" name="file" accept="*.csv" /><br/><br/>
+		        <button class="btn btn-info greenbtn"><i class="fa fa-plus-square-o" aria-hidden="true" value="Upload Authors"></i> Upload CSV File</button>
+		    </form>
+
+			<div class="divider"></div>		
+
+			<div class="card">
+				<div class="card-body">
+					<h5 class="greytext">Instructions:</h5>
+					<p class="greytext">- On the shopownerid field copy and paste the id below on all shops you want to create. </p>
+					<div class="up_idfield"><%= currentUser._id %></div>
+					<div class="divider"></div>
+					<p class="greytext">- Copy and paste a shop type from the options below:</p>
+					<div class="container greytext">
+						<text>Supermarket</text><br><hr>
+						<text>Big Shop</text><br><hr>
+						<text>Small Shop</text><br>
+					</div>
+					<div class="divider"></div>
+					<p class="greytext">- On the active field set all values to be true.</p>
+				</div>
+			</div>
+			
+		</div>
+	</div>
+
+<% include partials/footer.ejs %>

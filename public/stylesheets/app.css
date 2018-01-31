@@ -168,10 +168,6 @@ a:hover {
 	cursor: pointer;
 }
 
-a:not([href]):not([tabindex]) {
-	color: #fff;
-}
-
 .greenbtn:hover {
 	background-color: #05A480;
 }
@@ -276,6 +272,32 @@ a:not([href]):not([tabindex]) {
 	width: 100%;
 }
 
+#clickhere {
+	color: #06be94;
+	cursor: pointer;
+}
+
+.up_idfield {
+	background-color: #efefef;
+	color: rgba(0,0,0,.65);
+	padding: 10px;
+}
+
+.bike-card {
+	background-color: #17a2b8;
+	cursor: pointer;
+	color: #fff;
+	margin-bottom: 10px;
+}
+
+.bike-card:hover {
+	background-color: #148C9E;
+	transition-duration:0.4s;
+}
+
+.editdelete {
+	cursor: pointer;
+}
 
 @media screen and (max-width: 991px) {
 	.hideonmob {

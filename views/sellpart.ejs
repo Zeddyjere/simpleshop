@@ -1,0 +1,156 @@
+<% include partials/header %>
+<% include partials/menu %>
+
+	<div class="divider"></div>
+
+	<div class="container">
+		
+
+		<nav class="nav nav-tabs" id="myTab" role="tablist">
+		  <a class="nav-item nav-link active" id="nav-home-tab" data-toggle="tab" href="#nav-home" role="tab" aria-controls="nav-home" aria-selected="true">Sell Item</a>
+		  <a class="nav-item nav-link" id="nav-profile-tab" data-toggle="tab" href="#nav-profile" role="tab" aria-controls="nav-profile" aria-selected="false">Discard Item</a>
+		</nav>
+
+		<div class="tab-content" id="nav-tabContent">
+		  <div class="tab-pane fade show active" id="nav-home" role="tabpanel" aria-labelledby="nav-home-tab">
+		  	<div class="card">
+				<div class="card-body generalpadding">
+					<form action="/cshops/<%= cshop._id %>/bikes/<%= bike._id %>/spareparts/<%= sparepart._id %>/sellpart?_method=PUT" method="POST">
+						<div class="row">
+							<div class="col-lg-6">
+								<div class="form-group">
+								    <label class="greytext smalltext" for="shopname">Shop Name</label>
+								    <input type="text" class="form-control" id="shopname" aria-describedby="emailHelp" placeholder="<%= cshop.shopname %>" readonly>
+								</div>
+								<div class="form-group">
+								    <label class="greytext smalltext" for="partname">Part Name</label>
+								    <input type="text" class="form-control" id="partname" name="sparepart[partname]" value="<%= sparepart.partname %>" readonly>
+								</div>
+								<div class="form-group">
+								    <label class="greytext smalltext" for="unitsprice">Part Selling Price (Each)</label>
+								    <input type="number" class="form-control" id="unitsprice" aria-describedby="emailHelp" name="sparepart[unitsprice]" placeholder="in KSH" value="<%= sparepart.unitsprice %>" readonly>
+								</div>
+								<div class="form-group">
+								    <label class="greytext smalltext" for="quantity">Quantity | <strong><em>Current quantity in stock = <span class="greentext"><%= sparepart.quantity %> items</span></em></strong></label>
+								    <input type="number" class="form-control" id="quantity" onkeyup="computeProfit();" onchange="computeProfit();" placeholder="Number of items" min="0" max="<%= sparepart.quantity %>" required name="itemquantity">
+								</div>
+							</div>
+
+							<div class="col-lg-6">
+								<div class="form-group">
+								    <label class="greytext smalltext" for="shopname">Customer Name</label>
+								    <input type="text" class="form-control" id="shopname" placeholder="Enter customer name" name="customername" required>
+								</div>
+								<div class="form-group">
+								    <label class="greytext smalltext" for="profitloss">Profit value</label>
+								    <input type="text" class="form-control" id="profitloss" name="profitloss" readonly> 
+								</div>
+
+								<div class="form-group">
+								    <input type="text" class="form-control" id="profitloss" value="<%= currentUser.username %>" name="theuser" hidden> 
+								</div>
+
+								<div class="form-group">
+								    <label class="greytext smalltext" for="remquantity">Remaining Quantity</label>
+								    <input type="text" class="form-control" id="remquantity" name="sparepart[quantity]" readonly> 
+								</div>
+							</div>		
+						</div>
+
+					  	<button type="submit" class="btn btn-info btn-sm greenbtn">Sell Item</button>
+					</form>
+				</div>
+			</div>
+		  </div>
+		  <div class="tab-pane fade" id="nav-profile" role="tabpanel" aria-labelledby="nav-profile-tab">
+		  		<div class="card">
+					<div class="card-body generalpadding">
+						<form action="/cshops/<%= cshop._id %>/bikes/<%= bike._id %>/spareparts/<%= sparepart._id %>/discardpart?_method=PUT" method="POST">
+							<div class="row">
+								<div class="col-lg-6">
+									<div class="form-group">
+									    <label class="greytext smalltext" for="shopname">Shop Name</label>
+									    <input type="text" class="form-control" id="shopname" aria-describedby="emailHelp" placeholder="<%= cshop.shopname %>" readonly>
+									</div>
+									<div class="form-group">
+									    <label class="greytext smalltext" for="partname">Part Name</label>
+									    <input type="text" class="form-control" id="partname" name="sparepart[partname]" value="<%= sparepart.partname %>" readonly>
+									</div>
+									<div class="form-group">
+									    <label class="greytext smalltext" for="unitsprice">Part Selling Price <em>will be reduced to KSH: 0</em></label>
+									    <input type="number" class="form-control" id="unitsprice" aria-describedby="emailHelp" name="sparepart[unitsprice]" placeholder="0" value="<%= sparepart.unitsprice %>" readonly>
+									</div>
+									<div class="form-group">
+									    <label class="greytext smalltext" for="quantity2">Quantity | <strong><em>Current quantity in stock = <span class="greentext"><%= sparepart.quantity %> items</span></em></strong></label>
+									    <input type="number" class="form-control" id="quantity2" onkeyup="computeLoss();" onchange="computeLoss();" placeholder="Number of items" min="0" max="" required name="itemquantity">
+									</div>
+								</div>
+
+								<div class="col-lg-6">
+									<div class="form-group">
+									    <label class="greytext smalltext" for="profitloss2">Loss value</label>
+									    <input type="text" class="form-control" id="profitloss2" name="profitloss" readonly> 
+									</div>
+
+									<div class="form-group">
+									    <input type="text" class="form-control" id="profitloss" value="<%= currentUser.username %>" name="theuser" hidden> 
+									</div>
+
+									<div class="form-group">
+									    <label class="greytext smalltext" for="remquantity2">Remaining Quantity</label>
+									    <input type="text" class="form-control" id="remquantity2" name="sparepart[quantity]" readonly> 
+									</div>
+
+									<div class="form-group">
+									    <input type="text" class="form-control" id="customername" value="Discarded Item" name="customername" hidden>
+									</div>
+
+									<div class="form-group">
+									    <input type="text" class="form-control" id="totalspent" value="0" name="totalspent" hidden>
+									</div>
+
+									<div class="card">
+										<div class="card-body generalpadding smalltext">
+											<text><strong>Point to note about discarding items:</strong></text><br>
+											<text>
+												Items that are discarded will incur a loss to the shop which will be calculated in the average Shop's performance. Only discard items that cannot be sold to a customer. 
+											</text>
+										</div>			
+									</div>
+								</div>		
+							</div>
+
+						  	<button type="submit" class="btn btn-info btn-sm greenbtn">Discard Item</button>
+						</form>
+					</div>
+			</div>
+		  </div>
+		</div>
+
+	</div>
+
+	<script>
+		function computeProfit() {
+			var quantity = document.getElementById("quantity").value;
+			var totalbuyingPrice = <%= sparepart.unitbprice %> * quantity;
+			var totalsellingPrice = <%= sparepart.unitsprice %> * quantity;
+			var profit = totalsellingPrice - totalbuyingPrice;
+			var viewPoint = document.getElementById("profitloss");
+			viewPoint.value = profit;
+			var remquantity = document.getElementById("remquantity").value = <%= sparepart.quantity %> - quantity;
+		}
+
+		function computeLoss() {
+			var quantity = document.getElementById("quantity2").value;
+			var totalbuyingPrice = <%= sparepart.unitbprice %> * quantity;
+			var totalsellingPrice = 0;
+			var loss = totalsellingPrice - totalbuyingPrice;
+			var viewPoint = document.getElementById("profitloss2");
+			viewPoint.value = loss;
+			var remquantity = document.getElementById("remquantity2").value = <%= sparepart.quantity %> - quantity;
+		}
+
+	</script>
+
+
+<% include partials/footer %>
