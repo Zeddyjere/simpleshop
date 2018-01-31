@@ -27,8 +27,8 @@ var bikeRoutes = require("./routes/bike");
 var sparepartRoutes = require("./routes/sparepart");
 
 // connect to the database
-var dburl = "mongodb://localhost/simple-shop";
-// var dburl = "mongodb://zeddyjere:redzilla@ds245287.mlab.com:45287/simpleshop";
+// var dburl = "mongodb://localhost/simple-shop";
+var dburl = "mongodb://zeddyjere:redzilla@ds245287.mlab.com:45287/simpleshop";
 
 mongoose.connect(dburl, function(err, res) {
 	if(err) {
