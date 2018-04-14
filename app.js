@@ -1,30 +1,30 @@
-var express 				= require("express"),
- 	app 					= express(),
- 	ejs 					= require("ejs"),
- 	mongoose 				= require("mongoose"),
- 	bodyParser 				= require("body-parser"),
- 	methodOverride  		= require("method-override"),
- 	User 					= require("./models/user"),
- 	passport 				= require("passport"),
- 	LocalStrategy 			= require("passport-local"),
- 	passportLocalMongoose 	= require("passport-local-mongoose"),
- 	json2csv 				= require('json2csv'),
-	csv 					= require("fast-csv"),
- 	fileUpload 				= require("express-fileupload"),
- 	flash 				 	= require("connect-flash"),
- 	DropDB 					= require("./caution_dropdata.js") // Don't mess with this line bruh!
+const express 				  = require("express"),
+ 	  app 					  = express(),
+ 	  ejs 					  = require("ejs"),
+ 	  mongoose 				  = require("mongoose"),
+ 	  bodyParser 			  = require("body-parser"),
+ 	  methodOverride  		  = require("method-override"),
+ 	  User 					  = require("./models/user"),
+ 	  passport 				  = require("passport"),
+ 	  LocalStrategy 		  = require("passport-local"),
+ 	  passportLocalMongoose   = require("passport-local-mongoose"),
+ 	  json2csv 				  = require('json2csv'),
+	  csv 					  = require("fast-csv"),
+ 	  fileUpload 			  = require("express-fileupload"),
+ 	  flash 				  = require("connect-flash"),
+ 	  DropDB 			      = require("./caution_dropdata.js") // Don't mess with this line bruh!
 
 // Require routes 
-var indexRoutes = require("./routes/index");
-var shopRoutes = require("./routes/shop");
-var inventoryRoutes = require("./routes/inventory");
-var staffRoutes = require("./routes/staff");
-var transactionRoutes = require("./routes/transactions");
-var invoiceRoutes = require("./routes/invoice");
-var statsRoutes = require("./routes/trends");
-var customShopRoutes = require("./routes/cshop");
-var bikeRoutes = require("./routes/bike");
-var sparepartRoutes = require("./routes/sparepart");
+const indexRoutes = require("./routes/index"),
+ 	  shopRoutes = require("./routes/shop"),
+ 	  inventoryRoutes = require("./routes/inventory"),
+ 	  staffRoutes = require("./routes/staff"),
+ 	  transactionRoutes = require("./routes/transactions"),
+ 	  invoiceRoutes = require("./routes/invoice"),
+ 	  statsRoutes = require("./routes/trends"),
+ 	  customShopRoutes = require("./routes/cshop"),
+ 	  bikeRoutes = require("./routes/bike"),
+ 	  sparepartRoutes = require("./routes/sparepart");
 
 // connect to the database
 // var dburl = "mongodb://localhost/simple-shop";
